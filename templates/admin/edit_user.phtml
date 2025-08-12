@@ -1,0 +1,62 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Editar Utilizador: <?php echo htmlspecialchars($user_to_edit['name']); ?></h1>
+
+<?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <?php echo $success_message; ?>
+    </div>
+<?php endif; ?>
+<?php if (!empty($errors)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul>
+    </div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="grid md:grid-cols-3 gap-8">
+        <!-- Coluna do Avatar -->
+        <div class="md:col-span-1 text-center">
+            <h2 class="text-xl font-bold mb-4">Avatar Atual</h2>
+            <img src="/uploads/avatars/<?php echo htmlspecialchars($user_to_edit['avatar']); ?>?t=<?php echo time(); ?>" alt="Avatar" class="w-40 h-40 rounded-full mb-4 border-4 border-purple-200 object-cover mx-auto">
+        </div>
+
+        <!-- Coluna do Formulário -->
+        <div class="md:col-span-2">
+            <form action="/admin/users/edit/<?php echo $user_to_edit['id']; ?>" method="POST">
+                <input type="hidden" name="user_id" value="<?php echo $user_to_edit['id']; ?>">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-gray-700 font-bold mb-2">Nome</label>
+                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user_to_edit['name']); ?>" class="w-full px-3 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-gray-700 font-bold mb-2">E-mail</label>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user_to_edit['email']); ?>" class="w-full px-3 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label for="account_type" class="block text-gray-700 font-bold mb-2">Tipo de Conta</label>
+                        <select id="account_type" name="account_type" class="w-full px-3 py-2 border rounded-lg">
+                            <option value="common" <?php echo $user_to_edit['account_type'] === 'common' ? 'selected' : ''; ?>>Comum</option>
+                            <option value="vip" <?php echo $user_to_edit['account_type'] === 'vip' ? 'selected' : ''; ?>>VIP</option>
+                            <option value="moderator" <?php echo $user_to_edit['account_type'] === 'moderator' ? 'selected' : ''; ?>>Moderador</option>
+                            <option value="admin" <?php echo $user_to_edit['account_type'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="status" class="block text-gray-700 font-bold mb-2">Status da Conta</label>
+                        <select id="status" name="status" class="w-full px-3 py-2 border rounded-lg">
+                            <option value="active" <?php echo $user_to_edit['status'] === 'active' ? 'selected' : ''; ?>>Ativo</option>
+                            <option value="suspended" <?php echo $user_to_edit['status'] === 'suspended' ? 'selected' : ''; ?>>Suspenso</option>
+                            <option value="banned" <?php echo $user_to_edit['status'] === 'banned' ? 'selected' : ''; ?>>Banido</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <button type="submit" name="edit_user_submit" class="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-orange-600">
+                        Guardar Alterações
+                    </button>
+                    <a href="/admin/users" class="ml-4 text-gray-600 hover:underline">Voltar para a lista</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

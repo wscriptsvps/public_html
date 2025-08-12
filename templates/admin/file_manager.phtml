@@ -1,0 +1,197 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Gerenciador de Arquivos</h1>
+
+<?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4"><?php echo $success_message; ?></div>
+<?php endif; ?>
+<?php if (!empty($errors)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul></div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <!-- Barra de Ferramentas -->
+    <div class="flex flex-wrap gap-2 mb-4">
+        <button id="upload-btn" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600">Upload</button>
+        <button id="create-file-btn" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600">Criar Arquivo</button>
+        <button id="create-folder-btn" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600">Criar Pasta</button>
+    </div>
+
+    <!-- Breadcrumbs de Navegação -->
+    <div class="mb-4 p-2 bg-gray-100 rounded-md text-gray-600">
+        <a href="/admin/file-manager" class="hover:underline">Raiz</a>
+        <?php
+        $path_segments = explode('/', $current_path);
+        $built_path = '';
+        foreach ($path_segments as $segment) {
+            if (empty($segment)) continue;
+            $built_path .= '/' . $segment;
+            echo ' / <a href="/admin/file-manager/list' . $built_path . '" class="hover:underline">' . htmlspecialchars($segment) . '</a>';
+        }
+        ?>
+    </div>
+
+    <?php if ($directory_content === false): ?>
+        <div class="text-red-600">Erro: O diretório não existe ou o acesso não é permitido.</div>
+    <?php else: ?>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-3">Nome</th>
+                        <th class="px-6 py-3">Tamanho</th>
+                        <th class="px-6 py-3">Última Modificação</th>
+                        <th class="px-6 py-3 text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Lista de Pastas -->
+                    <?php foreach ($directory_content['folders'] as $folder): ?>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" /></svg>
+                            <a href="/admin/file-manager/list/<?php echo $folder['path']; ?>" class="text-blue-600 hover:underline"><?php echo htmlspecialchars($folder['name']); ?></a>
+                        </td>
+                        <td class="px-6 py-4 text-gray-500">--</td>
+                        <td class="px-6 py-4 text-gray-500">--</td>
+                        <td class="px-6 py-4 text-center">
+                            <button class="font-medium text-blue-600 hover:underline rename-btn" data-path="<?php echo $folder['path']; ?>" data-name="<?php echo $folder['name']; ?>">Renomear</button>
+                            <form action="/admin/file-manager/list/<?php echo $current_path; ?>" method="POST" class="inline ml-3" onsubmit="return confirm('Tem a certeza que deseja apagar a pasta \'<?php echo $folder['name']; ?>\' e todo o seu conteúdo?');">
+                                <input type="hidden" name="path" value="<?php echo $folder['path']; ?>">
+                                <button type="submit" name="delete_folder" class="font-medium text-red-600 hover:underline">Apagar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <!-- Lista de Ficheiros -->
+                    <?php foreach ($directory_content['files'] as $file): ?>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                            <?php echo htmlspecialchars($file['name']); ?>
+                        </td>
+                        <td class="px-6 py-4"><?php echo FileManager::formatSize($file['size']); ?></td>
+                        <td class="px-6 py-4"><?php echo date('d/m/Y H:i', $file['modified']); ?></td>
+                        <td class="px-6 py-4 text-center">
+                             <a href="/admin/file-manager/edit/<?php echo $file['path']; ?>" class="font-medium text-blue-600 hover:underline">Editar</a>
+                             <a href="/admin/file-manager/download/<?php echo $file['path']; ?>" class="font-medium text-green-600 hover:underline ml-3">Baixar</a>
+                             <button class="font-medium text-blue-600 hover:underline rename-btn ml-3" data-path="<?php echo $file['path']; ?>" data-name="<?php echo $file['name']; ?>">Renomear</button>
+                             <form action="/admin/file-manager/list/<?php echo $current_path; ?>" method="POST" class="inline ml-3" onsubmit="return confirm('Tem a certeza que deseja apagar o ficheiro \'<?php echo $file['name']; ?>\'?');">
+                                <input type="hidden" name="path" value="<?php echo $file['path']; ?>">
+                                <button type="submit" name="delete_file" class="font-medium text-red-600 hover:underline">Apagar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+</div>
+
+<!-- Modais -->
+<div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+<!-- Modal de Upload -->
+<div id="upload-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Upload de Arquivo</h2>
+        <form action="/admin/file-manager/list/<?php echo $current_path; ?>" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="path" value="<?php echo $current_path; ?>">
+            <input type="file" name="file_to_upload" required class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 mb-4">
+            <div class="flex justify-end gap-4">
+                <button type="button" class="modal-cancel bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                <button type="submit" name="upload_file" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Criar Arquivo -->
+<div id="create-file-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Criar Novo Arquivo</h2>
+        <form action="/admin/file-manager/list/<?php echo $current_path; ?>" method="POST">
+            <input type="hidden" name="path" value="<?php echo $current_path; ?>">
+            <label for="file_name" class="block mb-2">Nome do Arquivo (com extensão):</label>
+            <input type="text" name="file_name" required class="w-full px-3 py-2 border rounded-lg mb-4">
+            <div class="flex justify-end gap-4">
+                <button type="button" class="modal-cancel bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                <button type="submit" name="create_file" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg">Criar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Criar Pasta -->
+<div id="create-folder-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Criar Nova Pasta</h2>
+        <form action="/admin/file-manager/list/<?php echo $current_path; ?>" method="POST">
+            <input type="hidden" name="path" value="<?php echo $current_path; ?>">
+            <label for="folder_name" class="block mb-2">Nome da Pasta:</label>
+            <input type="text" name="folder_name" required class="w-full px-3 py-2 border rounded-lg mb-4">
+            <div class="flex justify-end gap-4">
+                <button type="button" class="modal-cancel bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                <button type="submit" name="create_folder" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg">Criar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Renomear -->
+<div id="rename-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Renomear</h2>
+        <form action="/admin/file-manager/list/<?php echo $current_path; ?>" method="POST">
+            <input type="hidden" name="old_path" id="rename-old-path">
+            <label for="new_name" class="block mb-2">Novo Nome:</label>
+            <input type="text" name="new_name" id="rename-new-name" required class="w-full px-3 py-2 border rounded-lg mb-4">
+            <div class="flex justify-end gap-4">
+                <button type="button" class="modal-cancel bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                <button type="submit" name="rename_item" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg">Renomear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const backdrop = document.getElementById('modal-backdrop');
+    const modals = {
+        upload: document.getElementById('upload-modal'),
+        createFile: document.getElementById('create-file-modal'),
+        createFolder: document.getElementById('create-folder-modal'),
+        rename: document.getElementById('rename-modal')
+    };
+
+    const openModal = (modal) => {
+        backdrop.classList.remove('hidden');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    };
+
+    const closeModal = () => {
+        backdrop.classList.add('hidden');
+        Object.values(modals).forEach(m => {
+            if(m) {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        });
+    };
+
+    document.getElementById('upload-btn').addEventListener('click', () => openModal(modals.upload));
+    document.getElementById('create-file-btn').addEventListener('click', () => openModal(modals.createFile));
+    document.getElementById('create-folder-btn').addEventListener('click', () => openModal(modals.createFolder));
+    
+    document.querySelectorAll('.rename-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.getElementById('rename-old-path').value = e.target.dataset.path;
+            document.getElementById('rename-new-name').value = e.target.dataset.name;
+            openModal(modals.rename);
+        });
+    });
+
+    backdrop.addEventListener('click', closeModal);
+    document.querySelectorAll('.modal-cancel').forEach(btn => btn.addEventListener('click', closeModal));
+});
+</script>

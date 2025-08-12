@@ -1,0 +1,129 @@
+<link rel="stylesheet" href="/css/chat.css">
+
+<div id="chat-container" 
+     data-account-type="<?php echo htmlspecialchars($_SESSION['user_account_type']); ?>" 
+     data-current-user-id="<?php echo Auth::getUserId(); ?>" 
+     data-char-limit="<?php echo htmlspecialchars($_SESSION['current_room_char_limit'] ?? 1024); ?>"
+     class="flex h-[calc(100vh-150px)]">
+    
+    <!-- Área de Mensagens -->
+    <div id="messages-area" class="flex-grow flex flex-col bg-white rounded-l-lg shadow-lg">
+        <!-- BARRA DE VOTAÇÃO -->
+        <div id="votekick-banner" class="p-2 bg-red-100 border-b border-red-300 text-center text-sm hidden">
+            <p class="mb-1">Votação para expulsar <strong id="votekick-target-name"></strong>.</p>
+            <p><strong id="votekick-current-votes">1</strong> de 10 votos. <button id="votekick-cast-vote-btn" class="font-bold text-red-600 hover:underline">Votar para expulsar</button></p>
+            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                <div id="votekick-progress-bar" class="bg-red-600 h-1.5 rounded-full" style="width: 10%"></div>
+            </div>
+        </div>
+        
+        <div id="messages-box" class="flex-grow p-4 overflow-y-auto">
+            <div class="text-center text-gray-500">A carregar mensagens...</div>
+        </div>
+
+        <!-- Indicadores de Conversa -->
+        <div id="reply-indicator-area">
+            <div id="private-chat-indicator" class="px-4 py-1 text-sm text-gray-600 bg-yellow-100 border-t border-b border-yellow-300 items-center justify-between hidden">
+                <span></span>
+                <button class="font-bold text-red-600 hover:text-red-800 cancel-reply-btn">&times; Cancelar</button>
+            </div>
+            <div id="public-reply-indicator" class="px-4 py-1 text-sm text-gray-600 bg-blue-100 border-t border-b border-blue-300 items-center justify-between hidden">
+                <span></span>
+                <button class="font-bold text-red-600 hover:text-red-800 cancel-reply-btn">&times; Cancelar</button>
+            </div>
+        </div>
+
+        <div class="p-4 bg-gray-100 border-t">
+            <form id="message-form" class="flex gap-3">
+                <input type="text" id="message-input" placeholder="Escreva a sua mensagem..." autocomplete="off" class="flex-grow px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
+                <button type="submit" class="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-orange-600 transition duration-300">
+                    Enviar
+                </button>
+            </form>
+            <div id="adblock-warning" class="text-center text-red-600 text-sm mt-2 hidden">
+                Para garantir o funcionamento do chat, por favor, desative o seu bloqueador de anúncios e recarregue a página.
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra Lateral -->
+    <div id="sidebar-area" class="w-64 bg-gray-100 p-4 rounded-r-lg shadow-inner flex flex-col">
+        <div class="flex-grow overflow-y-auto">
+            <h2 class="text-lg font-bold text-purple-800 mb-4">Online Agora <span id="online-user-count">(0)</span></h2>
+            <ul id="online-users-list" class="min-h-[10rem]">
+                <li class="text-gray-500">A carregar...</li>
+            </ul>
+        </div>
+
+        <div class="mt-auto pt-4 border-t space-y-4">
+            <?php if ($sidebar_ad): ?>
+            <div id="ads-box">
+                <h3 class="font-bold text-center text-gray-600 text-sm mb-2"><?php echo htmlspecialchars($sidebar_ad['title']); ?></h3>
+                <div class="ad-content">
+                    <?php echo $sidebar_ad['content_html']; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($_SESSION['user_account_type'] === 'admin'): ?>
+            <div class="space-y-2">
+                <button id="clear-room-btn" class="w-full bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600 text-sm">Limpar Sala</button>
+            </div>
+            <?php endif; ?>
+
+            <button id="leave-room-btn" class="w-full bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300">
+                Sair da Sala
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Interação com Utilizador -->
+<div id="user-interaction-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-2xl max-w-sm w-full text-center">
+        <h2 class="text-xl font-bold mb-4">Ações para <span id="interaction-username" class="text-purple-600"></span></h2>
+        <div class="flex flex-col gap-4">
+            <button id="interaction-public-btn" class="bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600">Falar Abertamente</button>
+            <button id="interaction-private-btn" class="bg-gray-700 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-600">Falar Reservadamente</button>
+            <button id="interaction-report-btn" class="bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-yellow-600">Denunciar</button>
+            <button id="interaction-votekick-btn" class="bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700">Iniciar Votação para Expulsar</button>
+            <button id="interaction-cancel-btn" class="mt-4 text-gray-600 hover:underline">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Denúncia (Reportar) -->
+<div id="report-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Reportar Utilizador <span id="report-username" class="text-purple-600"></span></h2>
+        <form id="report-form">
+            <input type="hidden" id="report-user-id" name="reported_user_id">
+            
+            <div class="mb-4">
+                <label for="report-reason" class="block text-gray-700 font-bold mb-2">Motivo da Denúncia:</label>
+                <select id="report-reason" name="reason" class="w-full px-3 py-2 border rounded-lg" required>
+                    <option value="Comportamento ofensivo">Comportamento ofensivo</option>
+                    <option value="Conteúdo impróprio">Conteúdo impróprio</option>
+                    <option value="Spam">Spam</option>
+                    <option value="Ameaças">Ameaças</option>
+                    <option value="Assédio">Assédio</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+            
+            <div class="mb-6">
+                <label for="report-description" class="block text-gray-700 font-bold mb-2">Descrição Adicional (opcional):</label>
+                <textarea id="report-description" name="description" rows="3" class="w-full px-3 py-2 border rounded-lg"></textarea>
+            </div>
+            
+            <div id="report-feedback" class="text-sm mb-4"></div>
+
+            <div class="flex justify-end gap-4">
+                <button type="button" id="report-cancel-btn" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-400">Cancelar</button>
+                <button type="submit" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Enviar Denúncia</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/chat.js"></script>

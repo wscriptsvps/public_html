@@ -1,0 +1,39 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Configurações Gerais</h1>
+
+<?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4"><?php echo $success_message; ?></div>
+<?php endif; ?>
+<?php if (!empty($errors)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul></div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-2xl">
+    <form action="/admin/settings" method="POST">
+        <div class="space-y-6">
+            <!-- Configuração do Stripe -->
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Modo de Pagamento (Stripe)</h2>
+                <p class="text-sm text-gray-500 mb-4">Selecione se o sistema deve usar as chaves de Teste ou de Produção (Live) para os pagamentos.</p>
+                <div class="flex gap-8">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="stripe_mode" value="test" <?php echo ($current_stripe_mode === 'test') ? 'checked' : ''; ?> class="form-radio h-5 w-5 text-purple-600">
+                        <span class="ml-2 text-gray-700">Modo de Teste</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="stripe_mode" value="live" <?php echo ($current_stripe_mode === 'live') ? 'checked' : ''; ?> class="form-radio h-5 w-5 text-purple-600">
+                        <span class="ml-2 text-gray-700">Modo de Produção (Live)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Outras configurações podem ser adicionadas aqui no futuro -->
+
+        </div>
+
+        <div class="mt-8 border-t pt-6">
+            <button type="submit" name="save_settings" class="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-orange-600">
+                Guardar Configurações
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,43 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Gerenciamento de Avatares Padrão</h1>
+
+<?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <?php echo $success_message; ?>
+    </div>
+<?php endif; ?>
+<?php if (!empty($errors)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul>
+    </div>
+<?php endif; ?>
+
+<!-- Formulário de Upload -->
+<div class="bg-white p-6 rounded-lg shadow-md mb-8">
+    <h2 class="text-xl font-bold mb-4">Enviar Novo Avatar</h2>
+    <form action="/admin/avatars" method="POST" enctype="multipart/form-data">
+        <label for="avatar_file" class="block text-gray-700 font-bold mb-2">Selecione um ficheiro de imagem:</label>
+        <input type="file" id="avatar_file" name="avatar_file" accept="image/*" required class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"/>
+        <p class="text-xs text-gray-500 mt-1">PNG, JPG, GIF ou WEBP.</p>
+        <button type="submit" name="upload_avatar" class="mt-4 bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600">
+            Enviar Avatar
+        </button>
+    </form>
+</div>
+
+<!-- Galeria de Avatares Existentes -->
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold mb-4">Avatares Atuais</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+        <?php foreach ($avatars as $avatar): ?>
+            <div class="relative group">
+                <img src="/uploads/avatars/<?php echo htmlspecialchars($avatar['path']); ?>" alt="Avatar" class="w-full h-auto rounded-lg object-cover aspect-square">
+                <form action="/admin/avatars" method="POST" class="absolute top-1 right-1" onsubmit="return confirm('Tem a certeza que deseja apagar este avatar?');">
+                    <input type="hidden" name="avatar_id" value="<?php echo $avatar['id']; ?>">
+                    <button type="submit" name="delete_avatar" class="bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </form>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>

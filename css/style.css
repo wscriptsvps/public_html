@@ -1,0 +1,64 @@
+/**
+ * Ficheiro de Estilos Globais (css/style.css)
+ *
+ * A maior parte do estilo deste projeto  feita com TailwindCSS,
+ * que é carregado via CDN no ficheiro `templates/layout.phtml`.
+ *
+ * Este ficheiro pode ser usado para adicionar estilos personalizados ou
+ * para sobrescrever classes do Tailwind, se necessário.
+ */
+
+body {
+    /* Exemplo: Pode definir uma fonte global aqui se não gostar da padrão do navegador */
+    /* font-family: 'Inter', sans-serif; */
+}
+
+
+/* --- ESTILOS DE MENSAGEM ATUALIZADOS --- */
+
+/* Estilo base para todos os itens de mensagem */
+.message-item {
+    padding: 0.75rem;
+    border-left: 4px solid transparent; /* Borda padrão, transparente */
+    border-bottom: 1px solid #e5e7eb; /* Linha cinzenta clara divisória */
+}
+
+/* Remove a linha da última mensagem para um acabamento mais limpo */
+.message-item:last-child {
+    border-bottom: none;
+}
+
+/*
+ * --- Coloração Dinâmica para Mensagens Públicas ---
+ *
+ * O seu código PHP (backend) precisa de adicionar a cor do utilizador
+ * como uma variável CSS (--user-color) no elemento da mensagem.
+ * Exemplo em PHTML/HTML:
+ * <div class="message-item" style="--user-color: <?php echo htmlspecialchars($user_color); ?>;">
+ *
+ * O seletor `:not(.private-message)` garante que esta regra NO se aplique a mensagens privadas.
+*/
+
+.message-item:not(.private-message) {
+    border-left-color: var(--user-color, #e5e7eb); /* Usa a cor do utilizador ou um cinzento padrão */
+}
+
+/* Também podemos colorir o nome do utilizador para uma melhor identificação */
+.message-item .username {
+    color: var(--user-color, #1f2937); /* Usa a cor do utilizador ou um cinzento escuro padrão */
+    font-weight: 600; /* Torna o nome um pouco mais destacado */
+}
+
+
+/* --- Estilo para Mensagens Privadas --- */
+/* Este estilo sobrescreve a cor da borda e adiciona um fundo destacado. */
+.private-message {
+    background-color: #fffbeb; /* Amarelo muito claro */
+    border-left-color: #facc15; /* Borda amarela mais forte */
+    border-radius: 0.25rem; /* Adiciona um leve arredondamento para destacar */
+}
+
+/* O nome do utilizador em mensagens privadas pode ter uma cor específica também */
+.private-message .username {
+    color: #b45309; /* Um tom de laranja/castanho para combinar com o amarelo */
+}

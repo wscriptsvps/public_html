@@ -1,0 +1,31 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Logs de Infrações</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500 table-fixed"> <!-- table-fixed é importante para que as larguras sejam respeitadas -->
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 w-40">Data</th>
+                    <th class="px-6 py-3 w-40">Utilizador</th>
+                    <th class="px-6 py-3 w-32">IP</th>
+                    <th class="px-6 py-3">Conteúdo Bloqueado</th>
+                    <th class="px-6 py-3 w-48">Motivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($logs as $log): ?>
+                <tr class="bg-white border-b hover:bg-gray-50">
+                    <td class="px-6 py-4"><?php echo date('d/m/Y H:i', strtotime($log['created_at'])); ?></td>
+                    <td class="px-6 py-4"><a href="/admin/users/edit/<?php echo $log['user_id']; ?>" class="text-blue-600 hover:underline"><?php echo htmlspecialchars($log['user_name']); ?></a></td>
+                    <td class="px-6 py-4 font-mono text-xs"><?php echo htmlspecialchars($log['ip_address']); ?></td>
+                    <!-- CÉLULA ATUALIZADA -->
+                    <td class="px-6 py-4 text-red-600">
+                        <div class="break-words"><?php echo htmlspecialchars($log['blocked_content']); ?></div>
+                    </td>
+                    <td class="px-6 py-4"><?php echo htmlspecialchars($log['reason']); ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "^6.10",
+        "stripe/stripe-php": "^17.4",
+        "fakerphp/faker": "^1.24"
+    }
+}

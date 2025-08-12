@@ -1,0 +1,50 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">
+    <?php echo $plan_to_edit ? 'Editar Plano' : 'Criar Novo Plano'; ?>
+</h1>
+
+<?php if (!empty($errors)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul></div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <form action="/admin/plans" method="POST">
+        <?php if ($plan_to_edit): ?>
+            <input type="hidden" name="plan_id" value="<?php echo $plan_to_edit['id']; ?>">
+        <?php endif; ?>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <label for="name" class="block text-gray-700 font-bold mb-2">Nome do Plano (Ex: VIP Básico)</label>
+                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($plan_to_edit['name'] ?? ''); ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+                <label for="price" class="block text-gray-700 font-bold mb-2">Preço (R$)</label>
+                <input type="text" id="price" name="price" placeholder="Ex: 19,90" value="<?php echo isset($plan_to_edit['price']) ? number_format($plan_to_edit['price'], 2, ',', '') : ''; ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+                <label for="interval_months" class="block text-gray-700 font-bold mb-2">Intervalo de Cobrança (meses)</label>
+                <input type="number" id="interval_months" name="interval_months" placeholder="Ex: 1 para mensal" value="<?php echo $plan_to_edit['interval_months'] ?? 1; ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+                <label for="room_creation_limit" class="block text-gray-700 font-bold mb-2">Limite de Criação de Salas</label>
+                <input type="number" id="room_creation_limit" name="room_creation_limit" min="0" value="<?php echo $plan_to_edit['room_creation_limit'] ?? 1; ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <?php if ($plan_to_edit): ?>
+            <div class="md:col-span-2">
+                <label for="status" class="block text-gray-700 font-bold mb-2">Status</label>
+                <select id="status" name="status" class="w-full px-3 py-2 border rounded-lg">
+                    <option value="active" <?php echo $plan_to_edit['status'] === 'active' ? 'selected' : ''; ?>>Ativo</option>
+                    <option value="inactive" <?php echo $plan_to_edit['status'] === 'inactive' ? 'selected' : ''; ?>>Inativo</option>
+                </select>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="mt-6">
+            <button type="submit" name="save_plan" class="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-orange-600">
+                Guardar Plano
+            </button>
+            <a href="/admin/plans" class="ml-4 text-gray-600 hover:underline">Cancelar</a>
+        </div>
+    </form>
+</div>

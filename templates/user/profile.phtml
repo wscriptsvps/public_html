@@ -1,0 +1,256 @@
+<div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold text-purple-800 mb-6">Minha Conta</h1>
+
+    <?php if (!empty($success_message)): ?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4"><?php echo $success_message; ?></div>
+    <?php endif; ?>
+    <?php if (!empty($errors)): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul></div>
+    <?php endif; ?>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Coluna Esquerda: Avatar e Detalhes do Plano -->
+        <div class="lg:col-span-1 space-y-8">
+            <!-- Card do Avatar -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4 text-center">Avatar</h2>
+                <div class="flex flex-col items-center">
+                    <img src="/uploads/avatars/<?php echo htmlspecialchars($user['avatar']); ?>?t=<?php echo time(); ?>" alt="Avatar atual" class="w-40 h-40 rounded-full mb-4 border-4 border-purple-200 object-cover">
+                    <?php if ($user['account_type'] === 'vip' || $user['account_type'] === 'admin'): ?>
+                        <form action="/user/profile" method="POST" enctype="multipart/form-data" class="w-full">
+                            <label for="avatar" class="block text-gray-700 font-bold mb-2 text-center">Alterar Avatar Personalizado</label>
+                            <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"/>
+                            <p class="text-xs text-gray-500 mt-1 text-center">PNG, JPG ou GIF (Máx: 2MB)</p>
+                            <button type="submit" name="update_avatar" class="w-full mt-4 bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700">Enviar Novo Avatar</button>
+                        </form>
+                    <?php else: ?>
+                        <div class="text-center w-full bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+                            <p class="font-bold text-yellow-800">Avatar Personalizado</p>
+                            <p class="text-sm text-yellow-700 mt-1">Apenas membros VIP podem enviar um avatar personalizado.</p>
+                            <a href="/plans" class="mt-3 inline-block bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600 text-sm">Torne-se VIP</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Card Detalhes do Plano VIP -->
+            <?php if ($user['account_type'] === 'vip' || $user['account_type'] === 'admin'): ?>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4 text-purple-700">Detalhes da Assinatura</h2>
+                <?php if ($plan_details && !empty($plan_details['plan_expires_at'])): ?>
+                    <p><strong>Plano Ativo:</strong> <?php echo htmlspecialchars($plan_details['plan_name'] ?? 'N/A'); ?></p>
+                    <p><strong>Válido até:</strong> <?php echo date('d/m/Y', strtotime($plan_details['plan_expires_at'])); ?></p>
+                <?php else: ?>
+                    <p>Você não tem uma assinatura VIP ativa.</p>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Coluna Direita: Formulários -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Formulário de Dados do Perfil -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Dados do Perfil</h2>
+                <form action="/user/profile" method="POST">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 font-bold mb-2">Nome</label>
+                            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user['name']); ?>" required class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-bold mb-2">E-mail</label>
+                            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                    </div>
+                    
+                    <?php if ($user['account_type'] === 'vip' || $user['account_type'] === 'admin'): ?>
+                    <div class="mt-4">
+                        <label for="nickname" class="block text-gray-700 font-bold mb-2">Apelido Exclusivo (VIP)</label>
+                        <input type="text" id="nickname" name="nickname" value="<?php echo htmlspecialchars($user['nickname'] ?? ''); ?>" class="w-full px-3 py-2 border rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Este apelido é único e será seu enquanto for VIP.</p>
+                    </div>
+                    <div class="mt-4">
+                        <label for="location" class="block text-gray-700 font-bold mb-2">Localização (Cidade, Estado)</label>
+                        <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($user['location'] ?? ''); ?>" class="w-full px-3 py-2 border rounded-lg">
+                    </div>
+                    <div class="mt-4">
+                        <label for="interests" class="block text-gray-700 font-bold mb-2">Interesses (separados por vírgula)</label>
+                        <input type="text" id="interests" name="interests" value="<?php echo htmlspecialchars($user['interests'] ?? ''); ?>" class="w-full px-3 py-2 border rounded-lg" placeholder="Ex: Filmes, Música, Desporto">
+                    </div>
+                    <div class="mt-4">
+                        <label for="about_me" class="block text-gray-700 font-bold mb-2">Sobre Mim</label>
+                        <textarea id="about_me" name="about_me" rows="3" class="w-full px-3 py-2 border rounded-lg"><?php echo htmlspecialchars($user['about_me'] ?? ''); ?></textarea>
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="mt-4">
+                        <label class="block text-gray-700 font-bold mb-2">Gênero</label>
+                        <div class="flex justify-around">
+                            <label class="flex items-center"><input type="radio" name="gender" value="male" <?php echo ($user['gender'] === 'male') ? 'checked' : ''; ?> class="form-radio h-5 w-5 text-purple-600"> <span class="ml-2">Masculino</span></label>
+                            <label class="flex items-center"><input type="radio" name="gender" value="female" <?php echo ($user['gender'] === 'female') ? 'checked' : ''; ?> class="form-radio h-5 w-5 text-purple-600"> <span class="ml-2">Feminino</span></label>
+                            <label class="flex items-center"><input type="radio" name="gender" value="none" <?php echo ($user['gender'] === 'none') ? 'checked' : ''; ?> class="form-radio h-5 w-5 text-purple-600"> <span class="ml-2">Não informar</span></label>
+                        </div>
+                    </div>
+                    <button type="submit" name="update_profile" class="w-full mt-6 bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600">Guardar Alterações</button>
+                </form>
+            </div>
+
+            <!-- Minhas Salas VIP -->
+            <?php if ($user['account_type'] === 'vip' || $user['account_type'] === 'admin'): ?>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Minhas Salas VIP</h2>
+                <?php if (empty($user_rooms)): ?>
+                    <p class="text-gray-500">Você ainda não criou nenhuma sala.</p>
+                <?php else: ?>
+                    <ul class="space-y-3">
+                        <?php foreach ($user_rooms as $room): ?>
+                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                            <span class="font-semibold"><?php echo htmlspecialchars($room['name']); ?></span>
+                            <div>
+                                <a href="/user/profile?edit_room=<?php echo $room['id']; ?>" class="text-blue-600 hover:underline text-sm">Editar</a>
+                                <form action="/user/profile" method="POST" class="inline-block ml-3" onsubmit="return confirm('Tem a certeza que deseja apagar esta sala?');">
+                                    <input type="hidden" name="room_id_to_delete" value="<?php echo $room['id']; ?>">
+                                    <button type="submit" name="delete_vip_room" class="text-red-600 hover:underline text-sm">Excluir</button>
+                                </form>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+            <!-- Formulário de Criação/Edição de Sala VIP -->
+            <?php if ($user['account_type'] === 'vip' || $user['account_type'] === 'admin'): ?>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4"><?php echo $room_to_edit ? 'Editar Sala VIP' : 'Criar Nova Sala VIP'; ?></h2>
+                
+                <?php if (!$room_to_edit && count($user_rooms) >= 2): ?>
+                    <p class="text-yellow-700 bg-yellow-100 p-3 rounded-md">Você já atingiu o seu limite de 2 salas criadas.</p>
+                <?php else: ?>
+                    <form action="/user/profile" method="POST">
+                        <?php if ($room_to_edit): ?>
+                            <input type="hidden" name="room_id" value="<?php echo $room_to_edit['id']; ?>">
+                        <?php endif; ?>
+                        <div class="mb-4">
+                            <label for="room_name" class="block text-gray-700 font-bold mb-2">Nome da Sala</label>
+                            <input type="text" id="room_name" name="room_name" value="<?php echo htmlspecialchars($room_to_edit['name'] ?? ''); ?>" required class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div class="mb-4">
+                            <label for="room_description" class="block text-gray-700 font-bold mb-2">Descrição</label>
+                            <textarea id="room_description" name="room_description" rows="2" class="w-full px-3 py-2 border rounded-lg"><?php echo htmlspecialchars($room_to_edit['description'] ?? ''); ?></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="room_password" class="block text-gray-700 font-bold mb-2">Senha (deixe em branco para não alterar)</label>
+                            <input type="password" id="room_password" name="room_password" class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div class="mb-4">
+                            <label for="access_level" class="block text-gray-700 font-bold mb-2">Quem pode entrar?</label>
+                            <select id="access_level" name="access_level" class="w-full px-3 py-2 border rounded-lg">
+                                <option value="vip" <?php echo ($room_to_edit['access_level'] ?? 'vip') === 'vip' ? 'selected' : ''; ?>>Apenas VIPs</option>
+                                <option value="common" <?php echo ($room_to_edit['access_level'] ?? '') === 'common' ? 'selected' : ''; ?>>Qualquer Utilizador</option>
+                                <option value="moderator" <?php echo ($room_to_edit['access_level'] ?? '') === 'moderator' ? 'selected' : ''; ?>>Moderadores e Admins</option>
+                            </select>
+                        </div>
+                        <button type="submit" name="<?php echo $room_to_edit ? 'update_vip_room' : 'create_vip_room'; ?>" class="w-full bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700">
+                            <?php echo $room_to_edit ? 'Guardar Alterações' : 'Criar Sala'; ?>
+                        </button>
+                        <?php if ($room_to_edit): ?>
+                            <a href="/user/profile" class="block text-center mt-2 text-gray-600 hover:underline">Cancelar Edição</a>
+                        <?php endif; ?>
+                    </form>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+            <!-- Formulário para Alterar Senha -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Alterar Senha</h2>
+                <form action="/user/profile" method="POST">
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-700 font-bold mb-2">Nova Senha</label>
+                        <input type="password" id="password" name="password" required class="w-full px-3 py-2 border rounded-lg">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password_confirm" class="block text-gray-700 font-bold mb-2">Confirmar Nova Senha</label>
+                        <input type="password" id="password_confirm" name="password_confirm" required class="w-full px-3 py-2 border rounded-lg">
+                    </div>
+                    <button type="submit" name="update_password" class="w-full bg-gray-700 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800">Atualizar Senha</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Histórico de Pagamentos -->
+    <?php if (!empty($payment_history)): ?>
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Histórico de Pagamentos</h2>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3">Data</th>
+                            <th class="px-6 py-3">Plano</th>
+                            <th class="px-6 py-3">Valor</th>
+                            <th class="px-6 py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($payment_history as $payment): ?>
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <td class="px-6 py-4"><?php echo date('d/m/Y H:i', strtotime($payment['created_at'])); ?></td>
+                            <td class="px-6 py-4 font-semibold"><?php echo htmlspecialchars($payment['plan_name']); ?></td>
+                            <td class="px-6 py-4">R$ <?php echo number_format($payment['amount'], 2, ',', '.'); ?></td>
+                            <td class="px-6 py-4"><span class="px-2 py-1 font-semibold leading-tight rounded-full <?php echo $payment['status'] === 'succeeded' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'; ?>"><?php echo ucfirst($payment['status']); ?></span></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Zona de Perigo -->
+    <div class="mt-8 bg-red-50 border-2 border-dashed border-red-200 p-6 rounded-lg">
+        <h2 class="text-xl font-bold text-red-800">Zona de Perigo</h2>
+        <p class="text-gray-600 mt-2 mb-4">Esta ação é irreversível. Ao desativar a sua conta, todos os seus dados serão mantidos, mas não poderá mais aceder ao sistema.</p>
+        <button id="open-deactivate-modal" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Desativar Minha Conta</button>
+    </div>
+</div>
+
+<!-- Modal de Confirmação para Desativar Conta -->
+<div id="deactivate-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full">
+        <h2 class="text-2xl font-bold text-red-800 mb-4">Tem a certeza?</h2>
+        <p class="text-gray-700 mb-6">Esta ação não pode ser desfeita. Confirma que deseja desativar permanentemente a sua conta?</p>
+        <div class="flex justify-end gap-4">
+            <button id="cancel-deactivate" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-400">Cancelar</button>
+            <form action="/user/profile" method="POST">
+                <button type="submit" name="deactivate_account" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Sim, desativar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('deactivate-modal');
+    const openBtn = document.getElementById('open-deactivate-modal');
+    const cancelBtn = document.getElementById('cancel-deactivate');
+    if (openBtn) {
+        openBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        });
+    }
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+    }
+});
+</script>

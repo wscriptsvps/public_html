@@ -1,0 +1,40 @@
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-purple-800">Gerenciamento de Denúncias</h1>
+</div>
+
+<?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <?php echo $success_message; ?>
+    </div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3">Utilizador Denunciado</th>
+                    <th class="px-6 py-3">Autor da Denúncia</th>
+                    <th class="px-6 py-3">Motivo</th>
+                    <th class="px-6 py-3">Data</th>
+                    <th class="px-6 py-3">Status</th>
+                    <th class="px-6 py-3 text-center">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($reports as $report): ?>
+                <tr class="bg-white border-b hover:bg-gray-50 <?php echo $report['status'] === 'new' ? 'font-bold' : ''; ?>">
+                    <td class="px-6 py-4"><?php echo htmlspecialchars($report['reported_user_name']); ?></td>
+                    <td class="px-6 py-4"><?php echo htmlspecialchars($report['reporter_user_name']); ?></td>
+                    <td class="px-6 py-4"><?php echo htmlspecialchars($report['reason']); ?></td>
+                    <td class="px-6 py-4"><?php echo date('d/m/Y H:i', strtotime($report['created_at'])); ?></td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 font-semibold rounded-full <?php echo $report['status'] === 'new' ? 'bg-blue-200 text-blue-800' : ($report['status'] === 'reviewed' ? 'bg-yellow-200 text-yellow-800' : 'bg-gray-200 text-gray-700'); ?>"><?php echo ucfirst($report['status']); ?></span></td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="/admin/reports/view/<?php echo $report['id']; ?>" class="font-medium text-blue-600 hover:underline">Ver Detalhes</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

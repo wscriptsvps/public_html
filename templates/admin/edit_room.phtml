@@ -1,0 +1,72 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">
+    <?php echo $room_to_edit ? 'Editar Sala' : 'Criar Nova Sala'; ?>
+</h1>
+
+<?php if (!empty($errors)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul></div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <form action="/admin/rooms" method="POST">
+        <?php if ($room_to_edit): ?>
+            <input type="hidden" name="room_id" value="<?php echo $room_to_edit['id']; ?>">
+        <?php endif; ?>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- CAMPO DE CATEGORIA ADICIONADO -->
+            <div class="md:col-span-2">
+                <label for="category_id" class="block text-gray-700 font-bold mb-2">Categoria</label>
+                <select id="category_id" name="category_id" class="w-full px-3 py-2 border rounded-lg">
+                    <option value="">-- Nenhuma (Sala Geral) --</option>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo $category['id']; ?>" <?php echo ($room_to_edit['category_id'] ?? '') == $category['id'] ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($category['name']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Nome da Sala</label>
+                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($room_to_edit['name'] ?? ''); ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div class="md:col-span-2">
+                <label for="description" class="block text-gray-700 font-bold mb-2">Descrição</label>
+                <textarea id="description" name="description" rows="3" class="w-full px-3 py-2 border rounded-lg"><?php echo htmlspecialchars($room_to_edit['description'] ?? ''); ?></textarea>
+            </div>
+            <div>
+                <label for="user_limit" class="block text-gray-700 font-bold mb-2">Limite de Utilizadores</label>
+                <input type="number" id="user_limit" name="user_limit" value="<?php echo $room_to_edit['user_limit'] ?? 50; ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+                <label for="char_limit" class="block text-gray-700 font-bold mb-2">Limite de Caracteres</label>
+                <input type="number" id="char_limit" name="char_limit" value="<?php echo $room_to_edit['char_limit'] ?? 1024; ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+                <label for="type" class="block text-gray-700 font-bold mb-2">Tipo de Sala</label>
+                <select id="type" name="type" class="w-full px-3 py-2 border rounded-lg">
+                    <option value="public" <?php echo ($room_to_edit['type'] ?? 'public') === 'public' ? 'selected' : ''; ?>>Pública</option>
+                    <option value="vip" <?php echo ($room_to_edit['type'] ?? '') === 'vip' ? 'selected' : ''; ?>>VIP</option>
+                </select>
+            </div>
+            <?php if ($room_to_edit): ?>
+            <div>
+                <label for="status" class="block text-gray-700 font-bold mb-2">Status</label>
+                <select id="status" name="status" class="w-full px-3 py-2 border rounded-lg">
+                    <option value="active" <?php echo $room_to_edit['status'] === 'active' ? 'selected' : ''; ?>>Ativa</option>
+                    <option value="inactive" <?php echo $room_to_edit['status'] === 'inactive' ? 'selected' : ''; ?>>Inativa</option>
+                </select>
+            </div>
+            <?php else: ?>
+                <input type="hidden" name="status" value="active">
+            <?php endif; ?>
+        </div>
+
+        <div class="mt-6">
+            <button type="submit" name="save_room" class="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-orange-600">
+                Guardar Sala
+            </button>
+            <a href="/admin/rooms" class="ml-4 text-gray-600 hover:underline">Cancelar</a>
+        </div>
+    </form>
+</div>

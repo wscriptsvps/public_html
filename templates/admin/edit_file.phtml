@@ -1,0 +1,55 @@
+<?php
+$parent_path = dirname($item_path);
+if ($parent_path === '.') $parent_path = '';
+?>
+<h1 class="text-3xl font-bold text-purple-800 mb-4">Editando: <span class="font-mono text-2xl"><?php echo htmlspecialchars(basename($item_path)); ?></span></h1>
+<p class="text-gray-500 mb-6">Caminho: <?php echo htmlspecialchars($item_path); ?></p>
+
+<!-- CodeMirror CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material-darker.min.css">
+
+<!-- CodeMirror JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/php/php.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/htmlmixed/htmlmixed.min.js"></script>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <form action="/admin/file-manager/list/<?php echo $parent_path; ?>" method="POST">
+        <input type="hidden" name="path" value="<?php echo htmlspecialchars($item_path); ?>">
+        <textarea id="code-editor" name="content"><?php echo htmlspecialchars($file_content); ?></textarea>
+        <div class="mt-6 flex justify-end gap-4">
+            <a href="/admin/file-manager/list/<?php echo $parent_path; ?>" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</a>
+            <button type="submit" name="save_file_content" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg">Guardar Alterações</button>
+        </div>
+    </form>
+</div>
+
+<?php
+$extension = strtolower(pathinfo($item_path, PATHINFO_EXTENSION));
+$mode = 'text/plain';
+switch ($extension) {
+    case 'php': $mode = 'php'; break;
+    case 'js': $mode = 'javascript'; break;
+    case 'css': $mode = 'css'; break;
+    case 'html': case 'phtml': $mode = 'htmlmixed'; break;
+    case 'json': $mode = 'application/json'; break;
+    case 'xml': case 'htaccess': $mode = 'xml'; break;
+}
+?>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+        lineNumbers: true,
+        mode: '<?php echo $mode; ?>',
+        theme: 'material-darker',
+        indentUnit: 4,
+        tabSize: 4,
+        lineWrapping: true
+    });
+});
+</script>

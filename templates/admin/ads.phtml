@@ -1,0 +1,45 @@
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-purple-800">Gerenciamento de Anúncios</h1>
+    <a href="/admin/ads/create" class="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600">
+        + Criar Novo Anúncio
+    </a>
+</div>
+
+<?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <?php echo $success_message; ?>
+    </div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3">ID</th>
+                    <th class="px-6 py-3">Título</th>
+                    <th class="px-6 py-3">Local</th>
+                    <th class="px-6 py-3">Status</th>
+                    <th class="px-6 py-3 text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($ads as $ad): ?>
+                <tr class="bg-white border-b hover:bg-gray-50">
+                    <td class="px-6 py-4 font-medium"><?php echo $ad['id']; ?></td>
+                    <td class="px-6 py-4 font-bold"><?php echo htmlspecialchars($ad['title']); ?></td>
+                    <td class="px-6 py-4"><?php echo $ad['display_location'] === 'chat_sidebar' ? 'Barra do Chat' : 'Página Inicial'; ?></td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 font-semibold rounded-full <?php echo $ad['status'] === 'active' ? 'bg-green-200 text-green-700' : 'bg-gray-200 text-gray-700'; ?>"><?php echo ucfirst($ad['status']); ?></span></td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="/admin/ads/edit/<?php echo $ad['id']; ?>" class="font-medium text-blue-600 hover:underline">Editar</a>
+                        <form action="/admin/ads" method="POST" class="inline-block ml-4" onsubmit="return confirm('Tem a certeza que deseja apagar este anúncio?');">
+                            <input type="hidden" name="ad_id" value="<?php echo $ad['id']; ?>">
+                            <button type="submit" name="delete_ad" class="font-medium text-red-600 hover:underline">Apagar</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Dashboard</h1>
+
+<!-- Secção de Estatísticas -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <!-- Card: Utilizadores Online -->
+    <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+            <p class="text-sm font-medium text-gray-500">Utilizadores Online</p>
+            <p class="text-3xl font-bold text-gray-800"><?php echo $stats['online_users'] ?? 0; ?></p>
+        </div>
+        <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+        </div>
+    </div>
+    <!-- Card: Total de Utilizadores -->
+    <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+            <p class="text-sm font-medium text-gray-500">Total de Utilizadores</p>
+            <p class="text-3xl font-bold text-gray-800"><?php echo $stats['total_users'] ?? 0; ?></p>
+        </div>
+        <div class="bg-green-100 text-green-600 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-2a4 4 0 00-4-4H9a4 4 0 00-4 4v2" /></svg>
+        </div>
+    </div>
+    <!-- Card: Total de Salas -->
+    <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+            <p class="text-sm font-medium text-gray-500">Total de Salas Ativas</p>
+            <p class="text-3xl font-bold text-gray-800"><?php echo $stats['total_rooms'] ?? 0; ?></p>
+        </div>
+        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+        </div>
+    </div>
+    <!-- Card: Receita Mensal -->
+    <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+            <p class="text-sm font-medium text-gray-500">Receita Mensal (Julho)</p>
+            <p class="text-3xl font-bold text-gray-800">R$ <?php echo number_format($stats['monthly_revenue'] ?? 0, 2, ',', '.'); ?></p>
+        </div>
+        <div class="bg-purple-100 text-purple-600 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1H9.348a4 4 0 01-3.824-2.525L4 0M12 6h4.652A4 4 0 0120.475 3.475L21 4" /></svg>
+        </div>
+    </div>
+</div>
+
+<!-- Gráfico de Atividade -->
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold text-gray-700 mb-4">Novos Utilizadores (Últimos 30 dias)</h2>
+    <div class="h-80">
+        <canvas id="userRegistrationsChart"></canvas>
+    </div>
+</div>
+
+<!-- Incluir Chart.js via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('userRegistrationsChart').getContext('2d');
+    
+    // Obter dados do PHP
+    const labels = <?php echo json_encode($stats['chart_labels'] ?? []); ?>;
+    const dataPoints = <?php echo json_encode($stats['chart_data'] ?? []); ?>;
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Novos Utilizadores',
+                data: dataPoints,
+                backgroundColor: 'rgba(129, 140, 248, 0.2)', // Cor de fundo roxa clara
+                borderColor: 'rgba(107, 114, 245, 1)', // Cor da linha roxa
+                borderWidth: 3,
+                tension: 0.4, // Curva suave
+                fill: true,
+                pointBackgroundColor: 'rgba(107, 114, 245, 1)',
+                pointBorderColor: '#fff',
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        // Garante que os ticks do eixo Y sejam apenas números inteiros
+                        callback: function(value) {if (Math.floor(value) === value) {return value;}}
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: '#333',
+                    titleFont: { size: 14 },
+                    bodyFont: { size: 12 },
+                    padding: 10,
+                    cornerRadius: 4
+                }
+            }
+        }
+    });
+});
+</script>

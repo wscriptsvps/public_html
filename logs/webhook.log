@@ -1,0 +1,256 @@
+2025-08-05 00:32:52 - Webhook atingido.
+2025-08-05 00:32:52 - Assinatura do webhook verificada com sucesso. Evento: product.created
+2025-08-05 00:32:52 - Webhook atingido.
+2025-08-05 00:32:52 - Webhook atingido.
+2025-08-05 00:32:53 - Assinatura do webhook verificada com sucesso. Evento: plan.created
+2025-08-05 00:32:53 - Assinatura do webhook verificada com sucesso. Evento: price.created
+2025-08-05 00:33:14 - Webhook atingido.
+2025-08-05 00:33:14 - Assinatura do webhook verificada com sucesso. Evento: charge.succeeded
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: customer.created
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: payment_method.attached
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: customer.updated
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: customer.subscription.created
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.succeeded
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.created
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: invoice.created
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: invoice.finalized
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: checkout.session.completed
+2025-08-05 00:33:15 - Processando evento checkout.session.completed.
+2025-08-05 00:33:15 - Metadata recebida: {"plan_id":"8","user_id":"6"}
+2025-08-05 00:33:15 - Plano #8 encontrado. A atualizar utilizador #6 para VIP.
+2025-08-05 00:33:15 - Utilizador #6 atualizado e pagamento registado com sucesso.
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Webhook atingido.
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: invoice.payment_succeeded
+2025-08-05 00:33:15 - Assinatura do webhook verificada com sucesso. Evento: invoice.paid
+2025-08-05 00:33:19 - Webhook atingido.
+2025-08-05 00:33:19 - Assinatura do webhook verificada com sucesso. Evento: product.created
+2025-08-05 00:33:19 - Webhook atingido.
+2025-08-05 00:33:19 - Assinatura do webhook verificada com sucesso. Evento: plan.created
+2025-08-05 00:33:19 - Webhook atingido.
+2025-08-05 00:33:19 - Assinatura do webhook verificada com sucesso. Evento: price.created
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: charge.succeeded
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: customer.created
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: payment_method.attached
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: customer.updated
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: customer.subscription.created
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: checkout.session.completed
+2025-08-05 00:33:43 - Processando evento checkout.session.completed.
+2025-08-05 00:33:43 - Metadata recebida: {"plan_id":"8","user_id":"3"}
+2025-08-05 00:33:43 - Plano #8 encontrado. A atualizar utilizador #3 para VIP.
+2025-08-05 00:33:43 - Utilizador #3 atualizado e pagamento registado com sucesso.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.created
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.succeeded
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: invoice.created
+2025-08-05 00:33:43 - Webhook atingido.
+2025-08-05 00:33:43 - Assinatura do webhook verificada com sucesso. Evento: invoice.finalized
+2025-08-05 00:33:44 - Webhook atingido.
+2025-08-05 00:33:44 - Webhook atingido.
+2025-08-05 00:33:44 - Assinatura do webhook verificada com sucesso. Evento: invoice.payment_succeeded
+2025-08-05 00:33:44 - Assinatura do webhook verificada com sucesso. Evento: invoice.paid
+2025-08-06 06:36:04 - Webhook atingido.
+2025-08-06 06:36:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:36:29 - Webhook atingido.
+2025-08-06 06:36:29 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:36:29 - Webhook atingido.
+2025-08-06 06:36:29 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:36:35 - Webhook atingido.
+2025-08-06 06:36:35 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:36:37 - Webhook atingido.
+2025-08-06 06:36:37 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:36:38 - Webhook atingido.
+2025-08-06 06:36:38 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:36:54 - Webhook atingido.
+2025-08-06 06:36:54 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:37:09 - Webhook atingido.
+2025-08-06 06:37:09 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:37:13 - Webhook atingido.
+2025-08-06 06:37:13 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:37:13 - Webhook atingido.
+2025-08-06 06:37:13 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:37:45 - Webhook atingido.
+2025-08-06 06:37:45 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:38:03 - Webhook atingido.
+2025-08-06 06:38:03 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:38:20 - Webhook atingido.
+2025-08-06 06:38:20 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:38:22 - Webhook atingido.
+2025-08-06 06:38:22 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 06:38:22 - Webhook atingido.
+2025-08-06 06:38:22 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:34:41 - Webhook atingido.
+2025-08-06 08:34:41 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:34:54 - Webhook atingido.
+2025-08-06 08:34:54 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:34:56 - Webhook atingido.
+2025-08-06 08:34:56 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:35:22 - Webhook atingido.
+2025-08-06 08:35:22 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:35:22 - Webhook atingido.
+2025-08-06 08:35:22 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:37:37 - Webhook atingido.
+2025-08-06 08:37:37 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:38:20 - Webhook atingido.
+2025-08-06 08:38:20 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:38:21 - Webhook atingido.
+2025-08-06 08:38:21 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:38:24 - Webhook atingido.
+2025-08-06 08:38:24 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:38:27 - Webhook atingido.
+2025-08-06 08:38:27 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:38:32 - Webhook atingido.
+2025-08-06 08:38:32 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 08:39:07 - Webhook atingido.
+2025-08-06 08:39:07 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:16:24 - Webhook atingido.
+2025-08-06 10:16:25 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:16:25 - Webhook atingido.
+2025-08-06 10:16:25 - Webhook atingido.
+2025-08-06 10:16:25 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:16:25 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:16:40 - Webhook atingido.
+2025-08-06 10:16:40 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:16:41 - Webhook atingido.
+2025-08-06 10:16:41 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:03 - Webhook atingido.
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - Webhook atingido.
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:17:04 - ERRO: Falha na verificação da assinatura. A sua 'Signing secret' está correta? No signatures found matching the expected signature for payload
+2025-08-06 10:33:46 - Webhook atingido.
+2025-08-06 10:33:46 - Assinatura do webhook verificada com sucesso. Evento: product.created
+2025-08-06 10:33:46 - Webhook atingido.
+2025-08-06 10:33:46 - Webhook atingido.
+2025-08-06 10:33:46 - Assinatura do webhook verificada com sucesso. Evento: price.created
+2025-08-06 10:33:46 - Assinatura do webhook verificada com sucesso. Evento: plan.created
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:29 - Assinatura do webhook verificada com sucesso. Evento: checkout.session.completed
+2025-08-06 10:34:29 - Processando evento checkout.session.completed.
+2025-08-06 10:34:29 - Metadata recebida: {"plan_id":"8","user_id":"13"}
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:29 - Plano #8 encontrado. A atualizar utilizador #13 para VIP.
+2025-08-06 10:34:29 - Assinatura do webhook verificada com sucesso. Evento: payment_method.attached
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:29 - Utilizador #13 atualizado e pagamento registado com sucesso.
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:29 - Assinatura do webhook verificada com sucesso. Evento: charge.succeeded
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:29 - Assinatura do webhook verificada com sucesso. Evento: customer.created
+2025-08-06 10:34:29 - Assinatura do webhook verificada com sucesso. Evento: customer.updated
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:29 - Assinatura do webhook verificada com sucesso. Evento: customer.subscription.created
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:29 - Webhook atingido.
+2025-08-06 10:34:30 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.succeeded
+2025-08-06 10:34:30 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.created
+2025-08-06 10:34:30 - Webhook atingido.
+2025-08-06 10:34:30 - Webhook atingido.
+2025-08-06 10:34:30 - Webhook atingido.
+2025-08-06 10:34:30 - Assinatura do webhook verificada com sucesso. Evento: invoice.finalized
+2025-08-06 10:34:30 - Assinatura do webhook verificada com sucesso. Evento: invoice.created
+2025-08-06 10:34:30 - Assinatura do webhook verificada com sucesso. Evento: invoice.paid
+2025-08-06 10:34:30 - Webhook atingido.
+2025-08-06 10:34:30 - Assinatura do webhook verificada com sucesso. Evento: invoice.payment_succeeded
+2025-08-06 11:15:41 - Webhook atingido.
+2025-08-06 11:15:42 - Assinatura do webhook verificada com sucesso. Evento: price.created
+2025-08-06 11:15:55 - Webhook atingido.
+2025-08-06 11:15:55 - Assinatura do webhook verificada com sucesso. Evento: payment_method.attached
+2025-08-06 11:16:02 - Webhook atingido.
+2025-08-06 11:16:02 - Assinatura do webhook verificada com sucesso. Evento: customer.created
+2025-08-06 11:16:12 - Webhook atingido.
+2025-08-06 11:16:12 - Assinatura do webhook verificada com sucesso. Evento: invoice.finalized
+2025-08-06 11:16:42 - Webhook atingido.
+2025-08-06 11:16:42 - Assinatura do webhook verificada com sucesso. Evento: plan.created
+2025-08-06 11:16:54 - Webhook atingido.
+2025-08-06 11:16:54 - Assinatura do webhook verificada com sucesso. Evento: charge.succeeded
+2025-08-06 11:17:19 - Webhook atingido.
+2025-08-06 11:17:19 - Assinatura do webhook verificada com sucesso. Evento: checkout.session.completed
+2025-08-06 11:17:19 - Processando evento checkout.session.completed.
+2025-08-06 11:17:19 - Metadata recebida: {"plan_id":"8","user_id":"13"}
+2025-08-06 11:17:19 - Plano #8 encontrado. A atualizar utilizador #13 para VIP.
+2025-08-06 11:17:19 - Utilizador #13 atualizado e pagamento registado com sucesso.
+2025-08-06 11:17:24 - Webhook atingido.
+2025-08-06 11:17:24 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.created
+2025-08-06 11:17:25 - Webhook atingido.
+2025-08-06 11:17:25 - Assinatura do webhook verificada com sucesso. Evento: invoice.created
+2025-08-06 11:17:27 - Webhook atingido.
+2025-08-06 11:17:27 - Assinatura do webhook verificada com sucesso. Evento: customer.updated
+2025-08-06 11:17:31 - Webhook atingido.
+2025-08-06 11:17:31 - Assinatura do webhook verificada com sucesso. Evento: payment_intent.succeeded
+2025-08-06 11:17:32 - Webhook atingido.
+2025-08-06 11:17:32 - Assinatura do webhook verificada com sucesso. Evento: product.created
+2025-08-06 11:17:36 - Webhook atingido.
+2025-08-06 11:17:36 - Assinatura do webhook verificada com sucesso. Evento: customer.subscription.created
+2025-08-06 11:17:55 - Webhook atingido.
+2025-08-06 11:17:55 - Assinatura do webhook verificada com sucesso. Evento: invoice.payment_succeeded
+2025-08-06 11:18:17 - Webhook atingido.
+2025-08-06 11:18:17 - Assinatura do webhook verificada com sucesso. Evento: invoice.paid
+2025-08-06 21:22:32 - Webhook atingido.
+2025-08-06 21:22:32 - Webhook atingido.
+2025-08-06 21:22:33 - Assinatura do webhook verificada com sucesso. Evento: payout.created
+2025-08-06 21:22:33 - Assinatura do webhook verificada com sucesso. Evento: payout.reconciliation_completed
+2025-08-06 21:27:32 - Webhook atingido.
+2025-08-06 21:27:32 - Assinatura do webhook verificada com sucesso. Evento: payout.paid
+2025-08-06 22:24:15 - Webhook atingido.
+2025-08-06 22:24:15 - Assinatura do webhook verificada com sucesso. Evento: balance.available
+2025-08-07 21:25:35 - Webhook atingido.
+2025-08-07 21:25:35 - Webhook atingido.
+2025-08-07 21:25:36 - Assinatura do webhook verificada com sucesso. Evento: payout.reconciliation_completed
+2025-08-07 21:25:36 - Assinatura do webhook verificada com sucesso. Evento: payout.created
+2025-08-07 21:30:35 - Webhook atingido.
+2025-08-07 21:30:35 - Assinatura do webhook verificada com sucesso. Evento: payout.paid
+2025-08-07 22:17:26 - Webhook atingido.
+2025-08-07 22:17:26 - Assinatura do webhook verificada com sucesso. Evento: balance.available
+2025-08-10 21:27:01 - Webhook atingido.
+2025-08-10 21:27:01 - Webhook atingido.
+2025-08-10 21:27:03 - Assinatura do webhook verificada com sucesso. Evento: payout.created
+2025-08-10 21:27:03 - Assinatura do webhook verificada com sucesso. Evento: payout.reconciliation_completed
+2025-08-10 21:32:01 - Webhook atingido.
+2025-08-10 21:32:01 - Assinatura do webhook verificada com sucesso. Evento: payout.paid
+2025-08-10 22:20:02 - Webhook atingido.
+2025-08-10 22:20:03 - Assinatura do webhook verificada com sucesso. Evento: balance.available
+2025-08-11 21:22:19 - Webhook atingido.
+2025-08-11 21:22:19 - Webhook atingido.
+2025-08-11 21:22:19 - Assinatura do webhook verificada com sucesso. Evento: payout.created
+2025-08-11 21:22:20 - Assinatura do webhook verificada com sucesso. Evento: payout.reconciliation_completed
+2025-08-11 21:27:19 - Webhook atingido.
+2025-08-11 21:27:19 - Assinatura do webhook verificada com sucesso. Evento: payout.paid
+2025-08-11 22:17:21 - Webhook atingido.
+2025-08-11 22:17:21 - Assinatura do webhook verificada com sucesso. Evento: balance.available

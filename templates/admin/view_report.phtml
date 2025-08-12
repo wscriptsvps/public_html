@@ -1,0 +1,41 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Detalhes da Denúncia #<?php echo $report['id']; ?></h1>
+
+<?php if ($report): ?>
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-b pb-4 mb-4">
+        <div>
+            <h3 class="font-bold text-gray-600">Utilizador Denunciado</h3>
+            <p><a href="/admin/users/edit/<?php echo $report['reported_user_id']; ?>" class="text-blue-600 hover:underline"><?php echo htmlspecialchars($report['reported_user_name']); ?></a></p>
+        </div>
+        <div>
+            <h3 class="font-bold text-gray-600">Autor da Denúncia</h3>
+            <p><a href="/admin/users/edit/<?php echo $report['reporter_user_id']; ?>" class="text-blue-600 hover:underline"><?php echo htmlspecialchars($report['reporter_user_name']); ?></a></p>
+        </div>
+        <div>
+            <h3 class="font-bold text-gray-600">Data</h3>
+            <p><?php echo date('d/m/Y H:i', strtotime($report['created_at'])); ?></p>
+        </div>
+        <div>
+            <h3 class="font-bold text-gray-600">Sala</h3>
+            <p><?php echo $report['room_name'] ? htmlspecialchars($report['room_name']) : 'N/A'; ?></p>
+        </div>
+    </div>
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Motivo: <?php echo htmlspecialchars($report['reason']); ?></h2>
+        <h3 class="font-bold text-gray-600">Descrição Adicional:</h3>
+        <div class="prose max-w-none bg-gray-50 p-4 rounded mt-2">
+            <p><?php echo $report['description'] ? nl2br(htmlspecialchars($report['description'])) : '<em>Nenhuma descrição adicional foi fornecida.</em>'; ?></p>
+        </div>
+    </div>
+    <div class="flex items-center gap-4">
+        <form action="/admin/reports/view/<?php echo $report['id']; ?>" method="POST">
+            <input type="hidden" name="report_id" value="<?php echo $report['id']; ?>">
+            <input type="hidden" name="new_status" value="closed">
+            <button type="submit" name="update_report_status" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700">Marcar como Resolvida</button>
+        </form>
+        <a href="/admin/reports" class="ml-auto text-gray-600 hover:underline">Voltar para a lista</a>
+    </div>
+</div>
+<?php else: ?>
+    <p>Denúncia não encontrada.</p>
+<?php endif; ?>

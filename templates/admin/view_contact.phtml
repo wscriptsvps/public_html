@@ -1,0 +1,32 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Ver Mensagem</h1>
+
+<?php if ($contact_message): ?>
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="border-b pb-4 mb-4">
+        <p><strong>De:</strong> <?php echo htmlspecialchars($contact_message['name']); ?></p>
+        <p><strong>E-mail:</strong> <a href="mailto:<?php echo htmlspecialchars($contact_message['email']); ?>" class="text-blue-600"><?php echo htmlspecialchars($contact_message['email']); ?></a></p>
+        <p><strong>Data:</strong> <?php echo date('d/m/Y H:i', strtotime($contact_message['created_at'])); ?></p>
+        <p><strong>Status:</strong> <span class="px-2 py-1 font-semibold rounded-full <?php echo $contact_message['status'] === 'new' ? 'bg-blue-200 text-blue-800' : ($contact_message['status'] === 'read' ? 'bg-gray-200 text-gray-700' : 'bg-purple-200 text-purple-700'); ?>"><?php echo ucfirst($contact_message['status']); ?></span></p>
+    </div>
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Assunto: <?php echo htmlspecialchars($contact_message['subject']); ?></h2>
+        <div class="prose max-w-none bg-gray-50 p-4 rounded">
+            <?php echo nl2br(htmlspecialchars($contact_message['message'])); ?>
+        </div>
+    </div>
+    <div class="flex items-center gap-4">
+        <form action="/admin/contacts" method="POST">
+            <input type="hidden" name="contact_id" value="<?php echo $contact_message['id']; ?>">
+            <input type="hidden" name="new_status" value="archived">
+            <button type="submit" name="update_contact_status" class="bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700">Arquivar</button>
+        </form>
+        <form action="/admin/contacts" method="POST" onsubmit="return confirm('Tem a certeza que deseja apagar esta mensagem permanentemente?');">
+            <input type="hidden" name="contact_id" value="<?php echo $contact_message['id']; ?>">
+            <button type="submit" name="delete_contact" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Apagar</button>
+        </form>
+        <a href="/admin/contacts" class="ml-auto text-gray-600 hover:underline">Voltar para a lista</a>
+    </div>
+</div>
+<?php else: ?>
+    <p>Mensagem não encontrada.</p>
+<?php endif; ?>

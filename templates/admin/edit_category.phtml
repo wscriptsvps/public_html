@@ -1,0 +1,41 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">
+    <?php echo $category_to_edit ? 'Editar Categoria' : 'Criar Nova Categoria'; ?>
+</h1>
+
+<?php if (!empty($errors)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><ul><?php foreach ($errors as $error) echo "<li>$error</li>"; ?></ul></div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <form action="/admin/categories" method="POST">
+        <?php if ($category_to_edit): ?>
+            <input type="hidden" name="category_id" value="<?php echo $category_to_edit['id']; ?>">
+        <?php endif; ?>
+
+        <div class="space-y-6">
+            <div>
+                <label for="name" class="block text-gray-700 font-bold mb-2">Nome da Categoria</label>
+                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($category_to_edit['name'] ?? ''); ?>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+                <label for="description" class="block text-gray-700 font-bold mb-2">Descrição Curta</label>
+                <input type="text" id="description" name="description" value="<?php echo htmlspecialchars($category_to_edit['description'] ?? ''); ?>" class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div>
+                <label for="icon_svg" class="block text-gray-700 font-bold mb-2">Código do Ícone (SVG)</label>
+                <textarea id="icon_svg" name="icon_svg" rows="4" class="w-full px-3 py-2 border rounded-lg font-mono"><?php echo htmlspecialchars($category_to_edit['icon_svg'] ?? ''); ?></textarea>
+                <p class="text-xs text-gray-500 mt-1">Cole o código SVG completo aqui. Pode encontrar ícones em sites como <a href="https://heroicons.com/" target="_blank" class="text-blue-500">Heroicons</a>.</p>
+            </div>
+            <div>
+                <label for="display_order" class="block text-gray-700 font-bold mb-2">Ordem de Exibição</label>
+                <input type="number" id="display_order" name="display_order" value="<?php echo $category_to_edit['display_order'] ?? 0; ?>" class="w-full px-3 py-2 border rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">Números menores aparecem primeiro.</p>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <button type="submit" name="save_category" class="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-orange-600">Guardar Categoria</button>
+            <a href="/admin/categories" class="ml-4 text-gray-600 hover:underline">Cancelar</a>
+        </div>
+    </form>
+</div>

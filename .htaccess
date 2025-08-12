@@ -1,0 +1,22 @@
+# Ativar o motor de reescrita de URL
+RewriteEngine On
+
+# --- REGRAS DE SEGURANÇA ---
+# Bloquear o acesso direto a ficheiros e pastas sensíveis
+# Ninguém deve conseguir aceder a `https://chat.webhop.me/src/config.php`
+RewriteRule ^(src|vendor)/ - [F,L]
+
+# Bloquear o acesso a ficheiros de configuração e de ambiente
+RewriteRule ^(\.env|\.git|composer\.json|composer\.lock)$ - [F,L]
+
+
+# --- REGRAS DE ROTEAMENTO (Friendly URLs) ---
+# Redirecionar todos os pedidos que não sejam para ficheiros ou pastas existentes
+# para o `index.php`, que atuará como o nosso roteador principal.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# --- Otimizações e Cabeçalhos ---
+# Forçar codificação UTF-8
+AddDefaultCharset UTF-8

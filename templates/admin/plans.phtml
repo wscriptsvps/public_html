@@ -1,0 +1,47 @@
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-purple-800">Gerenciamento de Planos</h1>
+    <a href="/admin/plans/create" class="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600">
+        + Criar Novo Plano
+    </a>
+</div>
+
+<?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <?php echo $success_message; ?>
+    </div>
+<?php endif; ?>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3">ID</th>
+                    <th class="px-6 py-3">Nome do Plano</th>
+                    <th class="px-6 py-3">Preço</th>
+                    <th class="px-6 py-3">Intervalo</th>
+                    <th class="px-6 py-3">Status</th>
+                    <th class="px-6 py-3 text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($plans as $plan): ?>
+                <tr class="bg-white border-b hover:bg-gray-50">
+                    <td class="px-6 py-4 font-medium"><?php echo $plan['id']; ?></td>
+                    <td class="px-6 py-4 font-bold"><?php echo htmlspecialchars($plan['name']); ?></td>
+                    <td class="px-6 py-4">R$ <?php echo number_format($plan['price'], 2, ',', '.'); ?></td>
+                    <td class="px-6 py-4"><?php echo $plan['interval_months']; ?> mês(es)</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 font-semibold rounded-full <?php echo $plan['status'] === 'active' ? 'bg-green-200 text-green-700' : 'bg-gray-200 text-gray-700'; ?>"><?php echo ucfirst($plan['status']); ?></span></td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="/admin/plans/edit/<?php echo $plan['id']; ?>" class="font-medium text-blue-600 hover:underline">Editar</a>
+                        <form action="/admin/plans" method="POST" class="inline-block ml-4" onsubmit="return confirm('Tem a certeza que deseja apagar este plano?');">
+                            <input type="hidden" name="plan_id" value="<?php echo $plan['id']; ?>">
+                            <button type="submit" name="delete_plan" class="font-medium text-red-600 hover:underline">Apagar</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

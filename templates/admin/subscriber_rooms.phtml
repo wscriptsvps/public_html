@@ -1,0 +1,36 @@
+<h1 class="text-3xl font-bold text-purple-800 mb-6">Salas Criadas por Assinantes</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3">ID da Sala</th>
+                    <th class="px-6 py-3">Nome da Sala</th>
+                    <th class="px-6 py-3">Criada por</th>
+                    <th class="px-6 py-3">Data de Criação</th>
+                    <th class="px-6 py-3">Status</th>
+                    <th class="px-6 py-3 text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($subscriber_rooms as $room): ?>
+                <tr class="bg-white border-b hover:bg-gray-50">
+                    <td class="px-6 py-4 font-medium"><?php echo $room['id']; ?></td>
+                    <td class="px-6 py-4 font-bold"><?php echo htmlspecialchars($room['name']); ?></td>
+                    <td class="px-6 py-4">
+                        <a href="/admin/users/edit/<?php echo $room['created_by_user_id']; ?>" class="text-blue-600 hover:underline">
+                            <?php echo htmlspecialchars($room['creator_name']); ?>
+                        </a>
+                    </td>
+                    <td class="px-6 py-4"><?php echo date('d/m/Y H:i', strtotime($room['created_at'])); ?></td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 font-semibold rounded-full <?php echo $room['status'] === 'active' ? 'bg-green-200 text-green-700' : 'bg-gray-200 text-gray-700'; ?>"><?php echo ucfirst($room['status']); ?></span></td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="/admin/rooms/edit/<?php echo $room['id']; ?>" class="font-medium text-blue-600 hover:underline">Gerir Sala</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

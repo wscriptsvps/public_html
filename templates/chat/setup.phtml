@@ -1,0 +1,97 @@
+<div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md text-center">
+    <h1 class="text-2xl font-bold text-purple-800 mb-4">Preparar para a Sala "<?php echo htmlspecialchars($room['name']); ?>"</h1>
+    <p class="text-gray-600 mb-6">Personalize a sua experiência antes de entrar.</p>
+
+    <!-- EXIBIÇÃO DE ERRO -->
+    <?php if (!empty($error_message)): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <?php echo $error_message; ?>
+        </div>
+    <?php endif; ?>
+
+    <form action="/chat/enter/<?php echo htmlspecialchars($slug); ?>" method="POST">
+        <!-- Campo oculto para guardar o avatar selecionado -->
+        <input type="hidden" name="avatar_path" id="selected-avatar-path" value="<?php echo htmlspecialchars($user['avatar']); ?>">
+
+        <!-- Campo de Apelido -->
+        <div class="mb-6">
+            <label for="nickname" class="block text-gray-700 font-bold mb-2">Digite seu apelido para esta sala:</label>
+            <input type="text" id="nickname" name="nickname" value="<?php echo htmlspecialchars($user['nickname'] ?? $user['name']); ?>" class="w-full px-3 py-2 border rounded-lg text-center" required>
+        </div>
+
+        <!-- Opção para escolher avatar -->
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-3">Deseja escolher um avatar?</label>
+            <div class="flex justify-center gap-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="choose_avatar_option" value="yes" class="form-radio h-5 w-5 text-purple-600" checked>
+                    <span class="ml-2 text-gray-700">Sim</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="choose_avatar_option" value="no" class="form-radio h-5 w-5 text-purple-600">
+                    <span class="ml-2 text-gray-700">Não</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Seleção de Avatar (controlada por JS) -->
+        <div id="avatar-selection-area" class="mb-6 transition-all duration-300">
+            <div id="avatar-gallery" class="grid grid-cols-4 sm:grid-cols-6 gap-3 max-h-48 overflow-y-auto p-2 bg-gray-100 rounded-lg">
+                <?php foreach ($default_avatars as $avatar): ?>
+                    <img src="/uploads/avatars/<?php echo htmlspecialchars($avatar['path']); ?>" 
+                         data-path="<?php echo htmlspecialchars($avatar['path']); ?>"
+                         alt="Avatar" 
+                         class="w-full h-auto rounded-full object-cover aspect-square cursor-pointer border-4 border-transparent hover:border-purple-300 transition-all <?php echo ($user['avatar'] === $avatar['path']) ? 'selected-avatar' : ''; ?>">
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Seleção de Cor -->
+        <div class="mb-8">
+            <label for="color" class="block text-gray-700 font-bold mb-2">Escolha a cor do seu nome:</label>
+            <input type="color" id="color" name="color" value="<?php echo htmlspecialchars($user['color'] ?? '#000000'); ?>" class="w-24 h-12 mx-auto border-none cursor-pointer">
+        </div>
+        
+        <button type="submit" name="enter_chat" class="w-full bg-orange-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-orange-600 transition duration-300">
+            Entrar no Bate-Papo
+        </button>
+    </form>
+</div>
+
+<style>
+    /* Estilo para o avatar selecionado */
+    .selected-avatar {
+        border-color: #a78bfa; /* Roxo claro */
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('avatar-gallery');
+    const hiddenInput = document.getElementById('selected-avatar-path');
+    const avatarSelectionArea = document.getElementById('avatar-selection-area');
+    const radioOptions = document.querySelectorAll('input[name="choose_avatar_option"]');
+
+    // Lógica da galeria de avatares
+    gallery.addEventListener('click', (e) => {
+        if (e.target.tagName === 'IMG') {
+            gallery.querySelectorAll('img').forEach(img => img.classList.remove('selected-avatar'));
+            e.target.classList.add('selected-avatar');
+            hiddenInput.value = e.target.dataset.path;
+        }
+    });
+
+    // Lógica para mostrar/esconder a galeria
+    radioOptions.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.value === 'yes') {
+                avatarSelectionArea.style.display = 'block';
+            } else {
+                avatarSelectionArea.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
